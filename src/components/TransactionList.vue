@@ -3,25 +3,25 @@
         History
     </h3>
     <ul id="list" class="list">
-        <!-- <li class="minus"> -->
-            <!-- cash<span>-$400</span> -->
-            <!-- <button class="delete-btn">x</button> -->
-        <!-- </li> -->
-        <!-- <li class="plus"> -->
-        <!-- paycheck<span>$400</span> -->
-        <!-- <button class="delete-btn">x</button> -->
-        <!-- </li> -->
-    </ul>
+        <li v-for="transaction in transactions" :key="transaction.id" :class="transaction.amount <0? 'minus': 'plus'">
+            {{ transaction.text }}<span>{{ transaction.amount }}</span>
+            <button class="delete-btn" @click="deleteTransaction(transaction.id)">x</button>
+        </li> 
+        </ul>
 </template>
 
-<script>
-export default{
-    data(){
-        return{
-            transactions: [
-                {id:1, text: ''}
-            ]
-        }
-    }
+<script setup>
+
+const emit = defineEmits(['transactionDeleted']);
+
+const props = defineProps({
+transactions : {
+    type : Array,
+    required: true,
+ },
+});
+
+const deleteTransaction =(id) => {
+    emit('transactionDeleted',id);
 }
 </script>
